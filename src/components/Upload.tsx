@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, ChangeEvent, useEffect } from "react";
-import axios, { AxiosResponse } from "axios";
+import { useState, ChangeEvent } from "react";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import useDataStore from './zustand/Store'
 import { ApiResponse } from "@/utlis/types";
 import { useRouter } from "next/navigation";
@@ -50,14 +50,12 @@ export default function Upload() {
       setMessage("File uploaded successfully");
       setData(res.data)
       router.push('/display')
-    } catch (error:any) {
-       if (error.response) {
-     
-      setMessage(error.response.data.detail || "Upload failed.");
-    } else {
-    
-      setMessage("Upload failed. Try again.");
-    }
+    } catch (error:AxiosError | unknown) {
+       if (axios.isAxiosError(error)) {
+    setMessage(error.response?.data?.detail || "Upload failed.");
+  } else {
+    setMessage("Upload failed. Try again.");
+  }
     } finally {
       setUploading(false);
     }
