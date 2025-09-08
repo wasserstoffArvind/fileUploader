@@ -1,8 +1,8 @@
 import { create } from "zustand";
-
-interface DataStore<T = unknown> {
-  data: T | null;
-  setData: (newData: T) => void;
+import { ApiResponse } from "@/utlis/types";
+interface DataStore {
+  data: ApiResponse | null;
+  setData: (newData: ApiResponse) => void;
 }
 
 const useDataStore = create<DataStore>((set) => ({

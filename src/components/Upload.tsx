@@ -1,17 +1,20 @@
 "use client"
 
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import useDataStore from './zustand/Store'
-interface ApiResponse {
-  message: string;
-}
+import { ApiResponse } from "@/utlis/types";
+import { useRouter } from "next/navigation";
+
+
 
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
+  const [password,setPassword]=useState<string>("")
   const [message, setMessage] = useState<string>("");
     const setData=useDataStore((state)=>state.setData)
+    const router=useRouter()
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
@@ -27,24 +30,34 @@ export default function Upload() {
 
     const formData = new FormData();
     formData.append("file", file);
-
+    let url = `${process.env.NEXT_PUBLIC_BACKEND_URL}pdf_parse/`;
+    if (password && password.trim() !== "") {
+  url += `?password=${encodeURIComponent(password)}`;
+}
     try {
       setUploading(true);
       setMessage("");
 
       
       const res: AxiosResponse<ApiResponse> = await axios.post(
-        "https://your-api.com/upload",
+        url,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-
+      console.log(res.data)
       setMessage("File uploaded successfully");
       setData(res.data)
-    } catch (error) {
+      router.push('/display')
+    } catch (error:any) {
+       if (error.response) {
+     
+      setMessage(error.response.data.detail || "Upload failed.");
+    } else {
+    
       setMessage("Upload failed. Try again.");
+    }
     } finally {
       setUploading(false);
     }
@@ -74,7 +87,13 @@ export default function Upload() {
             </p>
           )}
         </label>
-
+           <input
+          type="password"
+          placeholder="Enter PDF password (if any)"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="mt-6 w-full py-3 px-4 rounded-xl bg-black/40 border border-green-700 text-green-300 focus:outline-none focus:ring-2 focus:ring-green-600"
+        />
 
         <button
           onClick={handleUpload}
