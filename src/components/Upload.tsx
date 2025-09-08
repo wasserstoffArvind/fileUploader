@@ -65,7 +65,7 @@ export default function Upload() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-[#0d1b0d] to-[#001a00] text-green-400 px-4">
       <div className="w-full max-w-lg p-8 rounded-3xl border border-green-800 bg-black/40 backdrop-blur-xl shadow-2xl">
         <h2 className="text-3xl font-extrabold text-green-400 text-center mb-8 tracking-wide">
-          Classic File Uploader
+          File Uploader
         </h2>
 
         <label
