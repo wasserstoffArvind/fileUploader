@@ -77,7 +77,7 @@ export default function Upload() {
             onChange={handleFileChange}
           />
           {file ? (
-            <p className="text-green-300 font-medium">{file.name}</p>
+            <p className="text-green-300 break-words w-full font-medium px-4">{file.name}</p>
           ) : (
             <p className="text-green-500 text-center">
               📂 Drag & drop your file here <br />
