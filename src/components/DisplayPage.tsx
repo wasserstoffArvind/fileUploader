@@ -26,9 +26,10 @@ export default function DisplayPage() {
 
         <div className="mb-6 p-4 bg-black/30 backdrop-blur-md rounded-xl border border-green-700">
           <h3 className="text-xl font-semibold mb-2">User Details</h3>
-          <p><span className="font-semibold">Name:</span> {statement_details.userName}</p>
+          {Object.entries(statement_details).map(([key,value])=>(        <p key={key}><span className="font-semibold">{key}:</span> {value}</p>))}
+          {/* <p><span className="font-semibold">Name:</span> {statement_details.userName}</p>
           <p><span className="font-semibold">Bank:</span> {statement_details.bankName}</p>
-          <p><span className="font-semibold">Card:</span> {statement_details.cardName}</p>
+          <p><span className="font-semibold">Card:</span> {statement_details.cardName}</p> */}
         </div>
 
         <div className="mb-6 p-4 bg-black/30 backdrop-blur-md rounded-xl border border-green-700 overflow-x-auto">
