@@ -24,13 +24,17 @@ export default function DisplayPage() {
           Statement Overview
         </h2>
 
-        <div className="mb-6 flex justify-between p-4 bg-black/30 backdrop-blur-md rounded-xl border border-green-700">
+        <div className="mb-6 flex box-border justify-between  p-4 bg-black/30 backdrop-blur-md rounded-xl border border-green-700">
           <div>
             <h3 className="text-xl font-semibold mb-2">User Details</h3>
           {Object.entries(statement_details).map(([key,value])=>(<p key={key} className="pt-1"><span className="font-semibold">{key}:</span> {value}</p>))}
 
           </div>
-          <div> <h3 className="text-xl font-semibold mb-2  break-words w-full">FileName: {fileName}</h3></div>
+          <div className="max-w-xs break-words text-right">
+    <h3 className="text-xl font-semibold mb-2">
+      FileName: <span className="break-all">{fileName}</span>
+    </h3>
+  </div>
           {/* <p><span className="font-semibold">Name:</span> {statement_details.userName}</p>
           <p><span className="font-semibold">Bank:</span> {statement_details.bankName}</p>
           <p><span className="font-semibold">Card:</span> {statement_details.cardName}</p> */}
