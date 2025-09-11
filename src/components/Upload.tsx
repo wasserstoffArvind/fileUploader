@@ -14,10 +14,12 @@ export default function Upload() {
   const [password,setPassword]=useState<string>("")
   const [message, setMessage] = useState<string>("");
     const setData=useDataStore((state)=>state.setData)
+    const setFileName=useDataStore((state)=>state.setFileName)
     const router=useRouter()
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
+      setFileName(e.target.files[0].name)
       setMessage("");
     }
   };

@@ -6,7 +6,7 @@ import useDataStore from "./zustand/Store";
 export default function DisplayPage() {
   const router = useRouter();
   const data = useDataStore((state) => state.data);
-
+  const fileName=useDataStore(state=>state.fileName)
   if (!data) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-[#0d1b0d] to-[#001a00] text-green-400 px-4">
@@ -24,9 +24,13 @@ export default function DisplayPage() {
           Statement Overview
         </h2>
 
-        <div className="mb-6 p-4 bg-black/30 backdrop-blur-md rounded-xl border border-green-700">
-          <h3 className="text-xl font-semibold mb-2">User Details</h3>
+        <div className="mb-6 flex justify-between p-4 bg-black/30 backdrop-blur-md rounded-xl border border-green-700">
+          <div>
+            <h3 className="text-xl font-semibold mb-2">User Details</h3>
           {Object.entries(statement_details).map(([key,value])=>(<p key={key} className="pt-1"><span className="font-semibold">{key}:</span> {value}</p>))}
+
+          </div>
+          <div> <h3 className="text-xl font-semibold mb-2  break-words w-full">FileName: {fileName}</h3></div>
           {/* <p><span className="font-semibold">Name:</span> {statement_details.userName}</p>
           <p><span className="font-semibold">Bank:</span> {statement_details.bankName}</p>
           <p><span className="font-semibold">Card:</span> {statement_details.cardName}</p> */}
