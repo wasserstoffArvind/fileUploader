@@ -13,6 +13,7 @@ export default function Upload() {
   const [uploading, setUploading] = useState<boolean>(false);
   const [password,setPassword]=useState<string>("")
   const [message, setMessage] = useState<string>("");
+   const [dragActive, setDragActive] = useState<boolean>(false);
     const setData=useDataStore((state)=>state.setData)
     const setFileName=useDataStore((state)=>state.setFileName)
     const router=useRouter()
@@ -22,6 +23,30 @@ export default function Upload() {
       setFileName(e.target.files[0].name)
       setMessage("");
     }
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setFile(e.dataTransfer.files[0]);
+      setFileName(e.dataTransfer.files[0].name);
+      setMessage("");
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
   };
 
   const handleUpload = async () => {
@@ -46,12 +71,13 @@ export default function Upload() {
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
+          timeout: 20000
         }
       );
       console.log(res.data)
+      router.push('/display')
       setMessage("File uploaded successfully");
       setData(res.data)
-      router.push('/display')
     } catch (error:AxiosError | unknown) {
        if (axios.isAxiosError(error)) {
     setMessage(error.response?.data?.detail || "Upload failed.");
@@ -71,7 +97,15 @@ export default function Upload() {
         </h2>
 
         <label
-          className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-green-500 rounded-2xl cursor-pointer bg-black/40 hover:bg-green-900/20 transition-all duration-300 ease-in-out backdrop-blur-lg"
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          className={`flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-2xl cursor-pointer transition-all duration-300 ease-in-out backdrop-blur-lg
+            ${
+              dragActive
+                ? "border-green-400 bg-green-900/30"
+                : "border-green-500 bg-black/40 hover:bg-green-900/20"
+            }`}
         >
           <input
             type="file"
