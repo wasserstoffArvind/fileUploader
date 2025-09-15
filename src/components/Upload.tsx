@@ -71,7 +71,7 @@ export default function Upload() {
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
-          timeout: 20000
+          // timeout: 20000
         }
       );
       console.log(res.data)
